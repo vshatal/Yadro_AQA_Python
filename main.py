@@ -15,7 +15,7 @@ class Class:
         self.min_ = "0"
         self.max_ = "0"
         self.attributes = []
-        self.childes = []
+        self.children = []
 
     def add_attribute(self, name: str, type_: str) -> None:
         self.attributes.append({"name": name,
@@ -23,7 +23,7 @@ class Class:
                                 })
 
     def add_child(self, source: str) -> None:
-        self.childes.append(source)
+        self.children.append(source)
 
     def add_minmax(self, min_: str, max_: str) -> None:
         self.min_ = min_
@@ -47,7 +47,7 @@ class ClassBuilder:
 
     def build(self) -> None:
         self.init_classes()
-        self.init_childes()
+        self.init_children()
         self.init_minmax()
 
     def get_classes(self) -> dict:
@@ -67,7 +67,7 @@ class ClassBuilder:
 
             self.classes[cl.get("name")] = class_
 
-    def init_childes(self) -> None:
+    def init_children(self) -> None:
         for ag in self.root.findall("Aggregation"):
             class_ = self.classes[ag.get("target")]
             source = ag.get("source")
@@ -115,7 +115,7 @@ class ConfigMaker:
             element = ET.SubElement(root, attribute['name'])
             element.text = attribute['type']
 
-        for child in class_.childes:
+        for child in class_.children:
             element = ET.SubElement(root, classes[child].name)
             ConfigMaker.make_branch(element, classes[child])
 
@@ -138,7 +138,7 @@ class JsonMaker:
                 cl_dict["parameters"].append({"name": attr["name"],
                                               "type": attr["type"]
                                               })
-            for child in class_.childes:
+            for child in class_.children:
                 cl_dict["parameters"].append({"name": child,
                                               "type": "class"
                                               })
