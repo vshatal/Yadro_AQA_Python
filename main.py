@@ -2,6 +2,7 @@ import xml.etree.ElementTree as ET
 import json
 
 
+input_path = "input/test_input.xml"
 config_path = "out/config.xml"
 meta_path = "out/meta.json"
 
@@ -153,7 +154,7 @@ class JsonMaker:
         return json_list
 
 
-builder = ClassBuilder("input/test_input.xml")
+builder = ClassBuilder(input_path)
 builder.build()
 classes = builder.get_classes()
 
