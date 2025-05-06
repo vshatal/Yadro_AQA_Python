@@ -106,19 +106,11 @@ class ConfigMaker:
     def make_config(classes: dict) -> ET:
         main_root = ConfigMaker.find_main_root(classes)
         root = ET.Element(main_root.name)
-
-        for attribute in main_root.attributes:
-            element = ET.SubElement(root, attribute['name'])
-            element.text = attribute['type']
-
-        for child in main_root.childes:
-            element = ET.SubElement(root, classes[child].name)
-            ConfigMaker.make_branch(element, classes[child])
+        ConfigMaker.make_branch(root, main_root)
         return root
 
     @staticmethod
     def make_branch(root: ET.Element, class_: Class) -> None:
-
         for attribute in class_.attributes:
             element = ET.SubElement(root, attribute['name'])
             element.text = attribute['type']
